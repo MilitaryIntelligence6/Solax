@@ -5,9 +5,7 @@ import cn.misection.solax.core.floppy.factory.IFactory;
 
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author Administrator
@@ -32,27 +30,6 @@ public class Floppy
         this.put(MagneticHead.MAGNETIC_HEAD_0, (FloppyDisk) factory.create());
         this.put(MagneticHead.MAGNETIC_HEAD_1, (FloppyDisk) factory.create());
     }
-
-//    private List<List<byte[]>> newFloppyDisk() {
-//        // 磁盘的一个面;
-//        List<List<byte[]>> floppyDisk = new ArrayList<>();
-//        // 一个磁盘面有80个柱面
-//        for (int i = 0; i < FloppyParam.CYLINDER_COUNT; i++) {
-//            floppyDisk.add(newCylinder());
-//        }
-//        return floppyDisk;
-//    }
-//
-//    private List<byte[]> newCylinder() {
-//        //构造一个柱面，一个柱面有18个扇区
-//        List<byte[]> cylinder = new ArrayList<>();
-//        for (int i = 0; i < FloppyParam.SECTORS_COUNT; i++) {
-//            // 每个 扇区有512个字节;
-//            byte[] sector = new byte[FloppyParam.SECTOR_SIZE];
-//            cylinder.add(sector);
-//        }
-//        return cylinder;
-//    }
 
     public void putCylinder(int currentCylinder) {
         if (currentCylinder < 0) {
