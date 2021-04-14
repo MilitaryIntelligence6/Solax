@@ -27,8 +27,10 @@ public class Floppy
     private void init() {
         //一个磁盘有两个盘面
         IFactory factory = new FloppyDiskFactory();
-        this.put(MagneticHead.MAGNETIC_HEAD_0, (FloppyDisk) factory.create());
-        this.put(MagneticHead.MAGNETIC_HEAD_1, (FloppyDisk) factory.create());
+        for (int i = 0; i < MagneticHead.count(); i++) {
+            this.put(MagneticHead.selectByOrdinal(i),
+                    (FloppyDisk) factory.create());
+        }
     }
 
     public void putCylinder(int currentCylinder) {
