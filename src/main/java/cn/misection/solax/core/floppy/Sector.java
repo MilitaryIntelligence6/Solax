@@ -7,11 +7,15 @@ package cn.misection.solax.core.floppy;
  * @Description 单个扇区;
  * @CreateTime 2021年04月14日 00:16:00
  */
-public class Sector {
+public class Sector implements FloppyComponent {
 
-    private byte[] value;
+    private final byte[] value;
 
     public Sector() {
-        this.value =
+        this.value = new byte[FloppyParam.SECTOR_SIZE];
+    }
+
+    public byte[] value() {
+        return value;
     }
 }

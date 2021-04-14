@@ -1,5 +1,8 @@
 package cn.misection.solax.core.floppy;
 
+import cn.misection.solax.core.floppy.factory.CylinderFactory;
+import cn.misection.solax.core.floppy.factory.IFactory;
+
 import java.util.ArrayList;
 
 /**
@@ -9,6 +12,18 @@ import java.util.ArrayList;
  * @Description 一个盘面;
  * @CreateTime 2021年04月14日 00:14:00
  */
-public class FloppyDisk extends ArrayList<Cylinder> {
+public class FloppyDisk
+        extends ArrayList<Cylinder>
+        implements FloppyComponent {
 
+    public FloppyDisk() {
+        init();
+    }
+
+    private void init() {
+        IFactory cylinderFactory = new CylinderFactory();
+        for (int i = 0; i < FloppyParam.CYLINDER_COUNT; i++) {
+            this.add((Cylinder) cylinderFactory.create());
+        }
+    }
 }

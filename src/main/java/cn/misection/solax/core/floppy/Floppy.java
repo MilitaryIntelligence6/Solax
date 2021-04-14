@@ -1,5 +1,8 @@
 package cn.misection.solax.core.floppy;
 
+import cn.misection.solax.core.floppy.factory.FloppyDiskFactory;
+import cn.misection.solax.core.floppy.factory.IFactory;
+
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -9,7 +12,9 @@ import java.util.List;
 /**
  * @author Administrator
  */
-public class Floppy extends HashMap<MagneticHead, List<List<byte[]>>> {
+public class Floppy
+        extends HashMap<MagneticHead, FloppyDisk>
+        implements FloppyComponent {
 
     private MagneticHead magneticHead = MagneticHead.MAGNETIC_HEAD_0;
 
@@ -23,30 +28,31 @@ public class Floppy extends HashMap<MagneticHead, List<List<byte[]>>> {
 
     private void init() {
         //一个磁盘有两个盘面
-        this.put(MagneticHead.MAGNETIC_HEAD_0, newFloppyDisk());
-        this.put(MagneticHead.MAGNETIC_HEAD_1, newFloppyDisk());
+        IFactory factory = new FloppyDiskFactory();
+        this.put(MagneticHead.MAGNETIC_HEAD_0, (FloppyDisk) factory.create());
+        this.put(MagneticHead.MAGNETIC_HEAD_1, (FloppyDisk) factory.create());
     }
 
-    private List<List<byte[]>> newFloppyDisk() {
-        // 磁盘的一个面;
-        List<List<byte[]>> floppyDisk = new ArrayList<>();
-        // 一个磁盘面有80个柱面
-        for (int i = 0; i < FloppyParam.CYLINDER_COUNT; i++) {
-            floppyDisk.add(newCylinder());
-        }
-        return floppyDisk;
-    }
-
-    private List<byte[]> newCylinder() {
-        //构造一个柱面，一个柱面有18个扇区
-        List<byte[]> cylinder = new ArrayList<>();
-        for (int i = 0; i < FloppyParam.SECTORS_COUNT; i++) {
-            // 每个 扇区有512个字节;
-            byte[] sector = new byte[FloppyParam.SECTOR_SIZE];
-            cylinder.add(sector);
-        }
-        return cylinder;
-    }
+//    private List<List<byte[]>> newFloppyDisk() {
+//        // 磁盘的一个面;
+//        List<List<byte[]>> floppyDisk = new ArrayList<>();
+//        // 一个磁盘面有80个柱面
+//        for (int i = 0; i < FloppyParam.CYLINDER_COUNT; i++) {
+//            floppyDisk.add(newCylinder());
+//        }
+//        return floppyDisk;
+//    }
+//
+//    private List<byte[]> newCylinder() {
+//        //构造一个柱面，一个柱面有18个扇区
+//        List<byte[]> cylinder = new ArrayList<>();
+//        for (int i = 0; i < FloppyParam.SECTORS_COUNT; i++) {
+//            // 每个 扇区有512个字节;
+//            byte[] sector = new byte[FloppyParam.SECTOR_SIZE];
+//            cylinder.add(sector);
+//        }
+//        return cylinder;
+//    }
 
     public void putCylinder(int currentCylinder) {
         if (currentCylinder < 0) {
@@ -76,10 +82,10 @@ public class Floppy extends HashMap<MagneticHead, List<List<byte[]>>> {
         putCylinder(cylinderNum);
         putSector(sectorNum);
 
-        List<List<byte[]>> disk = this.get(this.magneticHead);
-        List<byte[]> cylinder = disk.get(this.currentCylinder);
+        FloppyDisk disk = this.get(this.magneticHead);
+        Cylinder cylinder = disk.get(this.currentCylinder);
 
-        byte[] sector = cylinder.get(this.currentSector);
+        byte[] sector = cylinder.get(this.currentSector).value();
         return sector;
     }
 
@@ -91,10 +97,10 @@ public class Floppy extends HashMap<MagneticHead, List<List<byte[]>>> {
         putCylinder(cylinderNum);
         putSector(sectorNum);
 
-        List<List<byte[]>> disk = this.get(this.magneticHead);
-        List<byte[]> cylinder = disk.get(this.currentCylinder);
+        FloppyDisk disk = this.get(this.magneticHead);
+        Cylinder cylinder = disk.get(this.currentCylinder);
 
-        byte[] buffer = cylinder.get(this.currentSector);
+        byte[] buffer = cylinder.get(this.currentSector).value();
         System.arraycopy(buf, 0, buffer, 0, buf.length);
     }
 
