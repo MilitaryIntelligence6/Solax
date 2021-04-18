@@ -13,7 +13,7 @@ public final class Macro {
 
     public static final boolean RELEASE = false;
 
-    public static final int CUR_CHAPTER = 05;
+    public static final int CUR_CHAPTER = 10;
 
     private Macro() {}
 }

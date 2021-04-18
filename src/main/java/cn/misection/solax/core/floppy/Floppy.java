@@ -9,6 +9,12 @@ import java.util.HashMap;
 
 /**
  * @author Administrator
+ * 虚拟软盘是存粹的二进制文件，它的逻辑结构如下：
+ * 前512*18 字节的内容对应盘面0，柱面0的所有扇区内容
+ * 接着的512*18字节的内容对应盘面1，柱面0的所有扇区内容
+ * 再接着的512*18字节的内容对应盘面0，柱面1所有扇区内容
+ * 再接着512*18字节的内容对应盘面1，柱面1所有扇区内容
+ * 以此类推
  */
 public class Floppy
         extends HashMap<MagneticHead, FloppyDisk>

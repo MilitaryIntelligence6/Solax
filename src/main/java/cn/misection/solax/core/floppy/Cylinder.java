@@ -14,9 +14,10 @@ import java.util.ArrayList;
  */
 public class Cylinder
         extends ArrayList<Sector>
-        implements FloppyComponent{
+        implements FloppyComponent {
 
     public Cylinder() {
+        super(FloppyParam.SECTORS_COUNT);
         init();
     }
 

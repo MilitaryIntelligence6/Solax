@@ -17,6 +17,7 @@ public class FloppyDisk
         implements FloppyComponent {
 
     public FloppyDisk() {
+        super(FloppyParam.CYLINDER_COUNT);
         init();
     }
 
